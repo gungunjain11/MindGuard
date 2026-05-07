@@ -120,6 +120,7 @@ p {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .primaryBtn,
@@ -198,12 +199,14 @@ p {
 .heroCard {
   width: min(720px, 100%);
   padding: 48px;
+  margin: 0 auto;
 }
 
 .heroText {
   color: var(--text-secondary);
   line-height: 1.8;
   max-width: 60ch;
+  margin: 0 auto;
 }
 
 .authCard {

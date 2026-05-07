@@ -30,7 +30,7 @@ export default function HomePage() {
 
   return (
     <main className="landing">
-      <section style={{ maxWidth: "920px", textAlign: "center" }}>
+      <section style={{ width: "100%", maxWidth: "920px", textAlign: "center" }}>
         {/* Hero Section */}
         <div className="heroCard" style={{ marginBottom: "72px" }}>
           <p className="eyebrow">Student Wellness Platform</p>

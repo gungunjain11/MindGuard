@@ -60,6 +60,7 @@ button, input, textarea {
 .heroCard {
   width: min(760px, 100%);
   padding: 40px;
+  margin: 0 auto;
 }
 
 .heroCard h1 {
@@ -78,6 +79,7 @@ button, input, textarea {
   color: var(--muted);
   line-height: 1.7;
   max-width: 60ch;
+  margin: 0 auto;
 }
 
 .heroActions {
@@ -85,6 +87,7 @@ button, input, textarea {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .primaryBtn,
