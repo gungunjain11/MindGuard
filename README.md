@@ -12,14 +12,16 @@ MindGuard AI is a sophisticated, AI-powered mental wellness and burnout preventi
 
 ## 🛠 Tech Stack
 
-* **Frontend:** Next.js (React), TypeScript, CSS Modules
-* **Backend:** Node.js, Firebase Cloud Functions
-* **Database & Auth:** Firebase Firestore (NoSQL), Firebase Authentication
-* **AI & Machine Learning:** Google Generative AI SDK, Vector Embeddings, Custom RAG Pipeline
+* **Frontend:** Next.js 15 (App Router), React 19, TypeScript, Vanilla CSS Modules
+* **Backend Architecture:** Vercel Serverless Functions (Next.js API Routes)
+* **Database:** Firebase Firestore (NoSQL)
+* **AI Integration:** Google Gemini (`gemini-1.5-flash` for extraction, `text-embedding-004` for vector embeddings)
+* **State Management:** React Hooks, Context API
+* **Deployment:** Vercel (Frontend & Serverless API), Firebase (Database & Auth)
 
 ## 🏗 System Architecture
 
-1. **User Input:** The Next.js frontend securely passes journal entries to the serverless backend via Firebase `httpsCallable` functions, ensuring automated authentication context.
+1. **User Input:** The Next.js frontend securely passes journal entries to the serverless backend via Next.js API routes, ensuring automated authentication context.
 2. **Vectorization:** The text is embedded into a mathematical vector representation.
 3. **Semantic Retrieval:** The backend performs mathematical similarity comparisons against the user's secure Firestore database to pull relevant historical entries.
 4. **Prompt Engineering & Generation:** The historical context and current entry are injected into a highly constrained LLM prompt, forcing the AI to output a structured JSON response containing targeted interventions.
