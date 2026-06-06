@@ -206,6 +206,25 @@ export default function DashboardPage() {
           <p className="label">AI Insights</p>
           {latestInsight ? (
             <>
+              {latestInsight.chainOfThought && (
+                <div style={{
+                  marginBottom: "16px",
+                  padding: "12px",
+                  background: "var(--surface)",
+                  borderLeft: "3px solid var(--tertiary)",
+                  borderRadius: "0 var(--radius-sm) var(--radius-sm) 0",
+                  fontFamily: "monospace",
+                  fontSize: "0.85rem",
+                  color: "var(--text-muted)"
+                }}>
+                  <p style={{ margin: "0 0 6px 0", fontWeight: "600", textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "0.05em", color: "var(--tertiary)" }}>
+                    🧠 AI Thought Process (XAI)
+                  </p>
+                  <p style={{ margin: 0, whiteSpace: "pre-wrap", lineHeight: "1.5" }}>
+                    {latestInsight.chainOfThought}
+                  </p>
+                </div>
+              )}
               <h3 style={{ margin: "14px 0 10px 0" }}>Analysis</h3>
               <p style={{ margin: "0 0 18px 0", color: "var(--text-secondary)", lineHeight: "1.7" }}>
                 {latestInsight.aiSummary || "No analysis available yet."}
@@ -243,6 +262,27 @@ export default function DashboardPage() {
                   </p>
                 </div>
               </div>
+              
+              {latestInsight.ragContextDetails && latestInsight.ragContextDetails.length > 0 && (
+                <div style={{
+                  marginTop: "16px",
+                  padding: "10px 14px",
+                  background: "rgba(90, 159, 139, 0.05)",
+                  border: "1px dashed rgba(90, 159, 139, 0.3)",
+                  borderRadius: "var(--radius-sm)",
+                }}>
+                  <p style={{ margin: "0 0 8px 0", fontSize: "0.75rem", color: "var(--secondary-light)", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                    🔍 RAG Retrieval Metrics (text-embedding-004)
+                  </p>
+                  <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+                    {latestInsight.ragContextDetails.map((rag: any, idx: number) => (
+                      <div key={idx} style={{ fontSize: "0.8rem", color: "var(--text-secondary)", background: "var(--surface)", padding: "4px 8px", borderRadius: "4px" }}>
+                        Entry {rag.daysAgo === 0 ? "Today" : `${rag.daysAgo}d ago`} • <strong>Cosine Sim: {(rag.similarity * 100).toFixed(1)}%</strong>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <p style={{ color: "var(--text-secondary)" }}>

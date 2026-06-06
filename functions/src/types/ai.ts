@@ -43,7 +43,9 @@ export interface Insight {
   weeklyAction: string;
   topContributors: string[];
   historicalPattern: string;
+  chainOfThought: string;
   motivationalNote: string | null; // Added from intervention generation
+  ragContextDetails?: { daysAgo: number; similarity: number }[];
   createdAt: Date;
 }
 
