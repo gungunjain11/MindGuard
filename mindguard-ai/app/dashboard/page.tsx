@@ -15,7 +15,8 @@ import {
   SettingsIcon,
   TrendUpIcon,
   TrendDownIcon,
-  StableIcon
+  StableIcon,
+  BrainIcon
 } from "@/src/components/icons";
 
 export default function DashboardPage() {
@@ -217,8 +218,8 @@ export default function DashboardPage() {
                   fontSize: "0.85rem",
                   color: "var(--text-muted)"
                 }}>
-                  <p style={{ margin: "0 0 6px 0", fontWeight: "600", textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "0.05em", color: "var(--tertiary)" }}>
-                    🧠 AI Thought Process (XAI)
+                  <p style={{ display: "flex", alignItems: "center", gap: "6px", margin: "0 0 6px 0", fontWeight: "600", textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "0.05em", color: "var(--tertiary)" }}>
+                    <BrainIcon size={14} /> AI Thought Process (XAI)
                   </p>
                   <p style={{ margin: 0, whiteSpace: "pre-wrap", lineHeight: "1.5" }}>
                     {latestInsight.chainOfThought}
@@ -272,7 +273,7 @@ export default function DashboardPage() {
                   borderRadius: "var(--radius-sm)",
                 }}>
                   <p style={{ margin: "0 0 8px 0", fontSize: "0.75rem", color: "var(--secondary-light)", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.08em" }}>
-                    🔍 RAG Retrieval Metrics (text-embedding-004)
+                    🔍 RAG Retrieval Metrics (gemini-embedding-2)
                   </p>
                   <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
                     {latestInsight.ragContextDetails.map((rag: any, idx: number) => (

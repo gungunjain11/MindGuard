@@ -1,10 +1,12 @@
-import { geminiModel } from "../services/geminiService";
+import { genAI } from "../services/geminiService";
 import type { SimilarEntry } from "../types/api";
 import type { Insight } from "../types/ai";
 import { generateEmbedding } from "../services/embeddingService";
 import { saveJournalEmbedding, getRecentInsights, saveInsight } from "../services/firestoreService";
 import { generateIntervention } from "../models/interventionService";
 import { retrievePatterns } from "../models/triggerDetector";
+import { retrieveSimilarEntries } from "./retrieveSimilarEntries";
+import { SchemaType, Schema } from "@google/generative-ai";
 
 interface AnalyzeJournalInput {
   uid: string;
@@ -14,6 +16,7 @@ interface AnalyzeJournalInput {
 }
 
 interface GeminiInsightResponse {
+  chainOfThought: string;
   emotions: string[];
   stressors: string[];
   dominantMood: string;
@@ -25,15 +28,64 @@ interface GeminiInsightResponse {
   historicalPattern: string;
 }
 
+// ─── Schema Definition ────────────────────────────────────────────────────────
+
+const insightSchema = {
+  description: "Analysis of the student's journal entry",
+  type: SchemaType.OBJECT,
+  properties: {
+    chainOfThought: {
+      type: SchemaType.STRING,
+      description: "Internal reasoning block. Think step-by-step about the student's emotional state, history, and triggers before generating the final fields."
+    },
+    emotions: {
+      type: SchemaType.ARRAY,
+      items: { type: SchemaType.STRING },
+      description: "2 to 4 short emotion labels like 'anxious', 'exhausted'"
+    },
+    stressors: {
+      type: SchemaType.ARRAY,
+      items: { type: SchemaType.STRING },
+      description: "specific triggers mentioned or implied"
+    },
+    dominantMood: {
+      type: SchemaType.STRING,
+      description: "single word describing overall mood"
+    },
+    urgencyLevel: {
+      type: SchemaType.STRING,
+      description: "Urgency risk level. Must be 'low', 'medium', or 'high'"
+    },
+    summary: {
+      type: SchemaType.STRING,
+      description: "1 to 2 sentences, empathetic, written directly to the student using 'you'. Acknowledge patterns if present."
+    },
+    topContributors: {
+      type: SchemaType.ARRAY,
+      items: { type: SchemaType.STRING },
+      description: "2 to 3 main factors behind their current state"
+    },
+    immediateAction: {
+      type: SchemaType.STRING,
+      description: "one concrete thing they can do tonight"
+    },
+    weeklyAction: {
+      type: SchemaType.STRING,
+      description: "one adjustment they can make this week for better balance"
+    },
+    historicalPattern: {
+      type: SchemaType.STRING,
+      description: "1 sentence describing what recurring pattern you notice across past + current entries, or 'No clear pattern yet'"
+    }
+  },
+  required: ["chainOfThought", "emotions", "stressors", "dominantMood", "urgencyLevel", "summary", "topContributors", "immediateAction", "weeklyAction", "historicalPattern"]
+} as Schema;
+
 // ─── Prompt Builder ───────────────────────────────────────────────────────────
 
-/**
- * Formats the retrieved similar past entries into a readable context block.
- * This is injected into the Gemini prompt so the model can reference history.
- */
 const buildHistoryContext = (similarEntries: SimilarEntry[]): string => {
   if (!similarEntries || similarEntries.length === 0) {
-    return "No similar past entries found. This may be one of the student's first entries.";
+    return "No similar past entries found. This appears to be one of the student's first entries.";
   }
 
   const formatted = similarEntries.map((entry, i) => {
@@ -44,113 +96,15 @@ const buildHistoryContext = (similarEntries: SimilarEntry[]): string => {
         ? "yesterday"
         : `${entry.daysAgo} days ago`;
 
-    return `
-Past entry ${i + 1} (written ${when}, similarity: ${Math.round(entry.similarity * 100)}%):
+    return `Past entry ${i + 1} (written ${when}, similarity: ${Math.round(entry.similarity * 100)}%):
 - Mood: ${entry.dominantMood}
 - Emotions: ${entry.emotions.join(", ")}
 - Stressors: ${entry.stressors.join(", ")}
 - Risk level: ${entry.riskLevel}
-- Summary: ${entry.aiSummary}
-    `.trim();
+- Summary: ${entry.aiSummary}`;
   });
 
   return formatted.join("\n\n");
-};
-
-const buildPrompt = (
-  journalText: string,
-  similarEntries: SimilarEntry[]
-): string => {
-  const hasHistory = similarEntries.length > 0;
-  const historyBlock = buildHistoryContext(similarEntries);
-
-  return `
-You are a compassionate student wellness assistant with memory of this student's past journal entries.
-Analyze the following journal entry written by a college student.
-Return ONLY a valid JSON object — no extra text, no markdown, no backticks.
-
-${
-  hasHistory
-    ? `You have access to semantically similar past entries from this student.
-Use them to identify whether these feelings are recurring and to personalize your response.
-Reference specific time frames when relevant (e.g., "similar to how you felt 2 weeks ago").
-
-PAST SIMILAR ENTRIES:
-${historyBlock}`
-    : "This appears to be one of the student's first journal entries, so respond without referencing past history."
-}
-
-The JSON must have exactly these fields:
-{
-  "emotions": [],
-  "stressors": [],
-  "dominantMood": "",
-  "urgencyLevel": "",
-  "summary": "",
-  "topContributors": [],
-  "immediateAction": "",
-  "weeklyAction": "",
-  "historicalPattern": ""
-}
-
-Field rules:
-- emotions: 2 to 4 short emotion labels like ["anxious", "exhausted"]
-- stressors: specific triggers mentioned or implied like ["assignment deadline", "poor sleep"]
-- dominantMood: single word describing overall mood
-- urgencyLevel: exactly one of "low", "medium", or "high"
-- summary: 1 to 2 sentences, empathetic, written directly to the student using "you"${
-    hasHistory
-      ? `. If there's a clear recurring pattern, acknowledge it naturally (e.g., "This week feels similar to what you went through ${similarEntries[0]?.daysAgo} days ago...")`
-      : ""
-  }
-- topContributors: 2 to 3 main factors behind their current state
-- immediateAction: one concrete thing they can do tonight
-- weeklyAction: one adjustment they can make this week for better balance
-- historicalPattern: ${
-    hasHistory
-      ? `1 sentence describing what recurring pattern you notice across past + current entries, or "No clear pattern yet" if you don't see one`
-      : `"First entry — no historical pattern available yet"`
-  }
-
-CURRENT journal entry:
-"${journalText}"
-`;
-};
-
-// ─── Parser ───────────────────────────────────────────────────────────────────
-
-const parseGeminiResponse = (rawText: string): GeminiInsightResponse => {
-  const cleaned = rawText
-    .replace(/```json/g, "")
-    .replace(/```/g, "")
-    .trim();
-
-  const parsed = JSON.parse(cleaned);
-
-  const required = [
-    "emotions",
-    "stressors",
-    "dominantMood",
-    "urgencyLevel",
-    "summary",
-    "topContributors",
-    "immediateAction",
-    "weeklyAction",
-    "historicalPattern",
-  ];
-
-  for (const field of required) {
-    if (!(field in parsed)) {
-      throw new Error(`Missing field in Gemini response: ${field}`);
-    }
-  }
-
-  const validLevels = ["low", "medium", "high"];
-  if (!validLevels.includes(parsed.urgencyLevel)) {
-    parsed.urgencyLevel = "medium";
-  }
-
-  return parsed as GeminiInsightResponse;
 };
 
 // ─── Main Export ──────────────────────────────────────────────────────────────
@@ -163,36 +117,72 @@ export const analyzeJournal = async (
   if (!journalText || journalText.trim().length < 10) {
     throw new Error("Journal entry is too short to analyze.");
   }
+  
+  let entriesToUse = similarEntries;
+  
   try {
     const vector = await generateEmbedding(journalText);
     await saveJournalEmbedding({ uid, journalId, vector, createdAt: new Date() });
+    
+    // If no similar entries were passed in, retrieve them now using the new vector!
+    if (entriesToUse.length === 0) {
+      const retrieval = await retrieveSimilarEntries(uid, vector, journalId);
+      entriesToUse = retrieval.similarEntries;
+    }
   } catch (embeddingError) {
-    console.warn("Embedding save failed (non-fatal):", embeddingError);
-    // non-fatal — analysis still proceeds even if embedding fails
+    console.warn("Embedding/Retrieval failed (non-fatal):", embeddingError);
   }
-  const prompt = buildPrompt(journalText, similarEntries);
+
+  const historyBlock = buildHistoryContext(entriesToUse);
+  const hasHistory = entriesToUse.length > 0;
+
+  // Initialize model with System Instructions and Schema (Advanced Prompting)
+  const model = genAI.getGenerativeModel({
+    model: "gemini-2.5-flash",
+    systemInstruction: "You are a compassionate student wellness assistant and expert psychologist with memory of this student's past journal entries. Your task is to analyze the journal entry, identify stress triggers, and provide actionable interventions.",
+    generationConfig: {
+      responseMimeType: "application/json",
+      responseSchema: insightSchema
+    }
+  });
+
+  const prompt = `
+PAST SIMILAR ENTRIES (RAG Context):
+${historyBlock}
+
+${hasHistory ? "Use the past entries to identify whether feelings are recurring and to personalize your response." : "Respond based only on the current entry as no history is available yet."}
+
+CURRENT JOURNAL ENTRY:
+"${journalText}"
+`;
 
   try {
-    const result = await geminiModel.generateContent(prompt);
-    const rawText = result.response.text();
-    const parsed = parseGeminiResponse(rawText);
+    const result = await model.generateContent(prompt);
+    // Since we use responseSchema, the text is guaranteed to be matching JSON format!
+    const parsed: GeminiInsightResponse = JSON.parse(result.response.text());
 
-    // Build the base insight first
+    // Fallback for urgencyLevel enum just in case
+    const validLevels = ["low", "medium", "high"];
+    if (!validLevels.includes(parsed.urgencyLevel)) {
+      parsed.urgencyLevel = "medium";
+    }
+
     const baseInsight = {
       uid,
       journalId,
+      chainOfThought: parsed.chainOfThought,
       emotions: parsed.emotions,
       stressors: parsed.stressors,
       dominantMood: parsed.dominantMood,
-      riskLevel: parsed.urgencyLevel,
+      riskLevel: parsed.urgencyLevel as "low" | "medium" | "high",
       aiSummary: parsed.summary,
       topContributors: parsed.topContributors,
       immediateAction: parsed.immediateAction,
       weeklyAction: parsed.weeklyAction,
       historicalPattern: parsed.historicalPattern,
+      ragContextDetails: entriesToUse.map(e => ({ daysAgo: e.daysAgo, similarity: e.similarity }))
     };
 
-    // Pull recent insights to compute patterns, then generate intervention
     let intervention = null;
     try {
       const recentInsights = await getRecentInsights(uid, 14);
@@ -204,15 +194,12 @@ export const analyzeJournal = async (
 
     const finalInsight = {
       ...baseInsight,
-      // Overwrite with richer intervention if available, fall back to Gemini's basic ones
       immediateAction: intervention?.immediateAction ?? baseInsight.immediateAction,
       weeklyAction: intervention?.studyAdjustment ?? baseInsight.weeklyAction,
       motivationalNote: intervention?.motivationalNote ?? null,
     };
 
-    // Save the insight to Firestore so it shows up on the frontend dashboard
     await saveInsight(finalInsight as any);
-
     return finalInsight;
   } catch (error) {
     console.error("Gemini analyzeJournal error:", error);

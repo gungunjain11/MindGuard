@@ -1,31 +1,29 @@
-# MindGuard AI 🧠✨
+# MindGuard
 
-MindGuard AI is a sophisticated, AI-powered mental wellness and burnout prevention platform designed specifically for students and high-stress individuals. It goes beyond simple habit tracking by utilizing advanced Natural Language Processing (NLP) and a custom Retrieval-Augmented Generation (RAG) architecture to provide real-time, context-aware psychological interventions.
+MindGuard is a robust, highly-scalable software system designed to track and prevent burnout through complex behavioral analysis and state-of-the-art semantic search. While the application leverages modern language models for NLP, the core value lies in its sophisticated software architecture, custom data pipelines, and intelligent retrieval systems engineered from the ground up to ensure privacy, performance, and context-awareness.
 
-## 🚀 Key Features
+## 🚀 Technical Highlights
 
-* **Context-Aware Journaling (RAG):** MindGuard doesn't just read your current journal entry; it remembers how you felt weeks ago. It uses advanced embedding models (`text-embedding-004`) to convert journal text into high-dimensional vectors, performing semantic cosine similarity searches across historical data to identify recurring stress triggers.
-* **Intelligent NLP Pipeline:** Leverages Google's Gemini LLMs (`gemini-1.5-flash`) to parse unstructured journal text into actionable, structured datasets. The AI extracts dominant emotions, specific stressors, and calculates urgency risk levels without manual user input.
-* **Data-Driven Burnout Tracking:** Aggregates daily health metrics (sleep duration, study hours, mood, social interaction) to calculate rolling burnout risk scores and visualize wellness trends over time.
-* **Automated Weekly Reviews:** A background analytics engine synthesizes a week's worth of behavioral data to generate personalized, empathetic recommendations for the upcoming week.
-* **Modern Monorepo Architecture:** A seamless integration of a lightning-fast frontend with a highly scalable, serverless AI backend.
+* **Custom Retrieval-Augmented Generation (RAG) Engine:** Implements a proprietary vector-based semantic search architecture. Journal entries are dynamically embedded into high-dimensional space (`gemini-embedding-2`), enabling cosine similarity algorithms to scan historical datasets in real-time. This allows the system to detect long-term emotional patterns and recurrences that simple keyword tracking misses.
+* **Complex Data Aggregation & Scoring Models:** A robust background analytics engine that calculates rolling burnout risk scores across multiple wellness dimensions (sleep, study hours, social isolation). The data pipeline aggregates high-frequency health metrics and normalizes them into precise risk coefficients.
+* **Advanced NLP Pipeline:** Unstructured text is piped through highly constrained execution environments (`gemini-2.5-flash`), strictly enforcing JSON schema adherence for deterministic extraction of stressors, emotional states, and risk categorization.
+* **Serverless Monorepo Architecture:** Built for maximum scalability and developer velocity. Features a highly optimized frontend paired with edge-ready serverless API routes, ensuring zero cold-start latency and seamless CI/CD integration.
 
 ## 🛠 Tech Stack
 
-* **Frontend:** Next.js 15 (App Router), React 19, TypeScript, Vanilla CSS Modules
-* **Backend Architecture:** Vercel Serverless Functions (Next.js API Routes)
-* **Database:** Firebase Firestore (NoSQL)
-* **AI Integration:** Google Gemini (`gemini-1.5-flash` for extraction, `text-embedding-004` for vector embeddings)
-* **State Management:** React Hooks, Context API
-* **Deployment:** Vercel (Frontend & Serverless API), Firebase (Database & Auth)
+* **Frontend & Framework:** Next.js 15 (App Router), React 19, TypeScript
+* **Styling & Design System:** Custom Vanilla CSS Modules (Zero-dependency, high-performance UI)
+* **Backend Infrastructure:** Vercel Serverless API Routes, Node.js
+* **Database & Auth:** Firebase Firestore (NoSQL), Firebase Authentication
+* **Vector & NLP Models:** Google Gemini (`gemini-2.5-flash`, `gemini-embedding-2`)
 
 ## 🏗 System Architecture
 
-1. **User Input:** The Next.js frontend securely passes journal entries to the serverless backend via Next.js API routes, ensuring automated authentication context.
-2. **Vectorization:** The text is embedded into a mathematical vector representation.
-3. **Semantic Retrieval:** The backend performs mathematical similarity comparisons against the user's secure Firestore database to pull relevant historical entries.
-4. **Prompt Engineering & Generation:** The historical context and current entry are injected into a highly constrained LLM prompt, forcing the AI to output a structured JSON response containing targeted interventions.
-5. **Delivery:** The structured data is saved to Firestore and instantly synced to the user's dashboard for review.
+1. **Client-Side Event Streaming:** The React frontend securely streams user telemetry and journal text to the serverless backend.
+2. **Asynchronous Vectorization:** Unstructured text is asynchronously converted into a mathematical vector representation.
+3. **High-Performance Semantic Retrieval:** The backend performs cosine similarity computations against the user's secure, isolated vector space in Firestore to retrieve relevant historical context.
+4. **Deterministic Generation:** The retrieved vectors and current state are injected into an isolated NLP execution environment. Strict schema typing ensures the model's output is predictable, structured, and ready for database insertion.
+5. **Real-time Syncing:** Extracted data and calculated intervention nodes are committed to the NoSQL database and instantly propagated back to the client UI.
 
 ## 💻 Local Development
 
@@ -42,31 +40,19 @@ MindGuard AI is a sophisticated, AI-powered mental wellness and burnout preventi
    ```
 
 2. **Install Dependencies**
-   Navigate to both the frontend and backend directories to install packages:
    ```bash
-   # Install frontend dependencies
    cd mindguard-ai
-   npm install
-
-   # Install backend dependencies
-   cd ../functions
    npm install
    ```
 
 3. **Environment Configuration**
-   - In `mindguard-ai/`, create a `.env.local` file with your Firebase Client configuration.
-   - In `functions/`, create a `.env` file and add your Gemini API Key: `GEMINI_API_KEY=your_key_here`
+   - In `mindguard-ai/`, create a `.env.local` file with your Firebase configuration, `GOOGLE_APPLICATION_CREDENTIALS`, and `GEMINI_API_KEY`.
 
 4. **Run the Application**
-   Run the Next.js frontend:
    ```bash
    cd mindguard-ai
    npm run dev
    ```
-   Run the Firebase backend emulators (in a separate terminal):
-   ```bash
-   firebase emulators:start
-   ```
 
-## 🛡 Privacy & Security
-User data, especially journal entries, is highly sensitive. MindGuard utilizes Firebase Authentication for strict access control and Firestore Security Rules to ensure users can only access their own vectorized data.
+## 🛡 Security & Compliance
+Data isolation is paramount. MindGuard enforces strict multi-tenant data boundaries at the database layer via advanced Firestore Security Rules. Mathematical embeddings and textual data are strictly bound to the authenticated user's session context, preventing unauthorized horizontal access.

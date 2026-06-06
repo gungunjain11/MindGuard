@@ -5,6 +5,7 @@ import { generateEmbedding } from "../services/embeddingService";
 import { saveJournalEmbedding, getRecentInsights, saveInsight } from "../services/firestoreService";
 import { generateIntervention } from "../models/interventionService";
 import { retrievePatterns } from "../models/triggerDetector";
+import { retrieveSimilarEntries } from "./retrieveSimilarEntries";
 import { SchemaType, Schema } from "@google/generative-ai";
 
 interface AnalyzeJournalInput {
@@ -117,19 +118,27 @@ export const analyzeJournal = async (
     throw new Error("Journal entry is too short to analyze.");
   }
   
+  let entriesToUse = similarEntries;
+  
   try {
     const vector = await generateEmbedding(journalText);
     await saveJournalEmbedding({ uid, journalId, vector, createdAt: new Date() });
+    
+    // If no similar entries were passed in, retrieve them now using the new vector!
+    if (entriesToUse.length === 0) {
+      const retrieval = await retrieveSimilarEntries(uid, vector, journalId);
+      entriesToUse = retrieval.similarEntries;
+    }
   } catch (embeddingError) {
-    console.warn("Embedding save failed (non-fatal):", embeddingError);
+    console.warn("Embedding/Retrieval failed (non-fatal):", embeddingError);
   }
 
-  const historyBlock = buildHistoryContext(similarEntries);
-  const hasHistory = similarEntries.length > 0;
+  const historyBlock = buildHistoryContext(entriesToUse);
+  const hasHistory = entriesToUse.length > 0;
 
   // Initialize model with System Instructions and Schema (Advanced Prompting)
   const model = genAI.getGenerativeModel({
-    model: "gemini-1.5-flash",
+    model: "gemini-2.5-flash",
     systemInstruction: "You are a compassionate student wellness assistant and expert psychologist with memory of this student's past journal entries. Your task is to analyze the journal entry, identify stress triggers, and provide actionable interventions.",
     generationConfig: {
       responseMimeType: "application/json",
@@ -171,7 +180,7 @@ CURRENT JOURNAL ENTRY:
       immediateAction: parsed.immediateAction,
       weeklyAction: parsed.weeklyAction,
       historicalPattern: parsed.historicalPattern,
-      ragContextDetails: similarEntries.map(e => ({ daysAgo: e.daysAgo, similarity: e.similarity }))
+      ragContextDetails: entriesToUse.map(e => ({ daysAgo: e.daysAgo, similarity: e.similarity }))
     };
 
     let intervention = null;
