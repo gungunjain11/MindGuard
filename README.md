@@ -1,58 +1,89 @@
 # MindGuard
 
-MindGuard is a robust, highly-scalable software system designed to track and prevent burnout through complex behavioral analysis and state-of-the-art semantic search. While the application leverages modern language models for NLP, the core value lies in its sophisticated software architecture, custom data pipelines, and intelligent retrieval systems engineered from the ground up to ensure privacy, performance, and context-awareness.
+MindGuard is a student wellness and burnout-prevention platform built with Next.js, Firebase, and a Retrieval-Augmented Generation (RAG) architecture. When students record journal entries and daily check-ins, the system retrieves historically relevant entries to contextualize emotional trends, detect recurring stressors, and generate structured interventions.
 
-## 🚀 Technical Highlights
+---
 
-* **Custom Retrieval-Augmented Generation (RAG) Engine:** Implements a proprietary vector-based semantic search architecture. Journal entries are dynamically embedded into high-dimensional space (`gemini-embedding-2`), enabling cosine similarity algorithms to scan historical datasets in real-time. This allows the system to detect long-term emotional patterns and recurrences that simple keyword tracking misses.
-* **Complex Data Aggregation & Scoring Models:** A robust background analytics engine that calculates rolling burnout risk scores across multiple wellness dimensions (sleep, study hours, social isolation). The data pipeline aggregates high-frequency health metrics and normalizes them into precise risk coefficients.
-* **Advanced NLP Pipeline:** Unstructured text is piped through highly constrained execution environments (`gemini-2.5-flash`), strictly enforcing JSON schema adherence for deterministic extraction of stressors, emotional states, and risk categorization.
-* **Serverless Monorepo Architecture:** Built for maximum scalability and developer velocity. Features a highly optimized frontend paired with edge-ready serverless API routes, ensuring zero cold-start latency and seamless CI/CD integration.
+## 🚀 Key Technical Components
+
+* **RAG-Driven Contextual Analysis:** Past journal entries are embedded into dense vector space (`gemini-embedding-2`), enabling cosine similarity retrieval over historical entries. Retrieved context is injected into structured LLM prompts (`gemini-2.5-flash`) to detect recurring patterns across time.
+* **Multimodal Wellness Scoring:** Combines quantitative self-report metrics (sleep duration, study hours, social rating) with NLP-extracted urgency signals into a unified burnout risk index.
+* **Constrained Structured Output:** Uses strict JSON schema enforcement with Gemini 2.5 Flash to deterministically extract emotions, stressors, and actionable wellness recommendations.
+* **Full-Stack Serverless Architecture:** Built with Next.js 15 App Router, React 19, TypeScript, and Firebase Firestore with user-scoped security rules.
+
+---
+
+## 📊 Retrieval Evaluation (Controlled Benchmark)
+
+To empirically evaluate the core retrieval mechanism, we implemented an offline controlled benchmark comparing sparse lexical retrieval (**TF-IDF**) against dense semantic retrieval (**`all-MiniLM-L6-v2`**) across 48 synthetic journal entries spanning 8 semantic themes under a leave-one-out protocol.
+
+### Headline Results
+
+| Evaluation Stratum | TF-IDF Baseline | Dense Semantic | Absolute Gain |
+|---|---|---|---|
+| **Overall Benchmark (N=48)** | P@3 = 0.2778 | **P@3 = 0.6528** | **+0.3750** |
+| **Low Lexical Overlap / Paraphrase (N=16)** | P@3 = 0.1458 | **P@3 = 0.6042** | **+0.4583** |
+| **High Lexical Overlap (N=16)** | P@3 = 0.4792 | **P@3 = 0.7500** | **+0.2708** |
+
+* **Key Takeaway:** When semantically related entries use distinct vocabulary (e.g., describing exhaustion without canonical keywords like *"exam"* or *"studying"*), dense semantic retrieval maintains substantially higher retrieval precision (+0.4583 absolute P@3 gain over TF-IDF).
+* **Benchmark Disclaimer:** This benchmark uses controlled synthetic data designed to test retrieval robustness under vocabulary variation. The results demonstrate retrieval mechanics under benchmark conditions and should not be interpreted as clinical validation or proof of universal superiority across arbitrary real-world distributions.
+
+👉 **Full benchmark methodology, dataset, and error analysis:** [experiment/benchmark/README.md](experiment/benchmark/README.md)
+
+---
 
 ## 🛠 Tech Stack
 
 * **Frontend & Framework:** Next.js 15 (App Router), React 19, TypeScript
-* **Styling & Design System:** Custom Vanilla CSS Modules (Zero-dependency, high-performance UI)
-* **Backend Infrastructure:** Vercel Serverless API Routes, Node.js
+* **Styling:** Custom Vanilla CSS Modules
+* **Backend Infrastructure:** Next.js Serverless API Routes / Firebase Cloud Functions
 * **Database & Auth:** Firebase Firestore (NoSQL), Firebase Authentication
-* **Vector & NLP Models:** Google Gemini (`gemini-2.5-flash`, `gemini-embedding-2`)
+* **Vector & NLP Models:** Google Gemini (`gemini-2.5-flash`, `gemini-embedding-2`), Sentence-Transformers (`all-MiniLM-L6-v2` for offline benchmark)
+
+---
 
 ## 🏗 System Architecture
 
-1. **Client-Side Event Streaming:** The React frontend securely streams user telemetry and journal text to the serverless backend.
-2. **Asynchronous Vectorization:** Unstructured text is asynchronously converted into a mathematical vector representation.
-3. **High-Performance Semantic Retrieval:** The backend performs cosine similarity computations against the user's secure, isolated vector space in Firestore to retrieve relevant historical context.
-4. **Deterministic Generation:** The retrieved vectors and current state are injected into an isolated NLP execution environment. Strict schema typing ensures the model's output is predictable, structured, and ready for database insertion.
-5. **Real-time Syncing:** Extracted data and calculated intervention nodes are committed to the NoSQL database and instantly propagated back to the client UI.
+1. **Telemetry & Text Input:** The frontend streams daily check-in metrics and journal text to serverless API routes.
+2. **Vector Embedding:** Unstructured journal text is embedded into dense representation vectors.
+3. **Historical Retrieval (RAG):** Cosine similarity search scans the authenticated user's isolated Firestore vector store for top-$K$ relevant past entries.
+4. **Structured Inference:** Retrieved historical context and current text are processed via Gemini 2.5 Flash with strict JSON schema constraints.
+5. **Score Merging & Persistence:** Extracted emotional signals and quantitative check-in metrics are merged into rolling burnout risk scores and stored in Firestore.
+
+---
 
 ## 💻 Local Development
 
 ### Prerequisites
-- Node.js (v18+)
-- Firebase CLI (`npm install -g firebase-tools`)
+* Node.js (v18+)
+* Python 3.10+ (for evaluation benchmark)
 
 ### Setup Instructions
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/mindguard.git
+   git clone https://github.com/gungunjain11/MindGuard.git
    cd mindguard
    ```
 
-2. **Install Dependencies**
+2. **Web Application Setup**
    ```bash
    cd mindguard-ai
    npm install
-   ```
-
-3. **Environment Configuration**
-   - In `mindguard-ai/`, create a `.env.local` file with your Firebase configuration, `GOOGLE_APPLICATION_CREDENTIALS`, and `GEMINI_API_KEY`.
-
-4. **Run the Application**
-   ```bash
-   cd mindguard-ai
+   # Configure .env.local with FIREBASE_* and GEMINI_API_KEY
    npm run dev
    ```
 
-## 🛡 Security & Compliance
-Data isolation is paramount. MindGuard enforces strict multi-tenant data boundaries at the database layer via advanced Firestore Security Rules. Mathematical embeddings and textual data are strictly bound to the authenticated user's session context, preventing unauthorized horizontal access.
+3. **Running the Retrieval Benchmark**
+   ```bash
+   cd experiment/benchmark
+   pip install -r ../requirements.txt
+   python scripts/run_benchmark.py
+   python scripts/visualize_benchmark.py
+   ```
+
+---
+
+## 🛡 Security & Privacy
+
+User data isolation is enforced at the database layer via Firestore Security Rules, ensuring associated embeddings and journal text are bound strictly to the authenticated user's session. Service account keys, local secrets, and raw evaluation corpora are strictly excluded from version control.

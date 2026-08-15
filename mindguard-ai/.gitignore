@@ -2,3 +2,7 @@ node_modules
 .next
 .env.local
 .firebase
+
+# Firebase service account — contains a private key with full DB access
+# NEVER commit this file. Reference via GOOGLE_APPLICATION_CREDENTIALS instead.
+service-account.json

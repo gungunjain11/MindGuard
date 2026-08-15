@@ -1,9 +1,32 @@
 # Dependencies
 node_modules/
+.firebase/
 
-# Environment variables
+# Environment variables & test scripts with secrets
 .env
 .env.local
+test-gemini.js
+**/test-gemini.js
+
+# Firebase credentials — private key with full DB write access — NEVER COMMIT
+service-account.json
+**/service-account.json
+
+# Benchmark — local outputs and generated results
+experiment/benchmark/results/*.json
+experiment/benchmark/results/*.csv
+experiment/benchmark/results/*.png
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# OS Files
+.DS_Store
+Thumbs.db
 
 # Logs
 npm-debug.log*
@@ -11,7 +34,3 @@ yarn-debug.log*
 yarn-error.log*
 firebase-debug.log*
 firebase-debug.*.log*
-
-# OS Files
-.DS_Store
-Thumbs.db

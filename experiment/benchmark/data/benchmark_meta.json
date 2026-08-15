@@ -1,0 +1,58 @@
+{
+  "_disclaimer": "SYNTHETIC CONTROLLED BENCHMARK. Not real user data. Not representative of real MindGuard users. Relevance is determined by benchmark construction, not human annotation of real journals. Designed strictly to evaluate sparse lexical (TF-IDF) vs. dense semantic retrieval behaviors across varying lexical overlap.",
+  "version": "1.0",
+  "n_entries": 48,
+  "n_themes": 8,
+  "entries_per_theme": 6,
+  "relevant_entries_per_query": 5,
+  "relevance_rule": "same theme_id, excluding the query entry itself (leave-one-out)",
+  "ground_truth_source": "controlled_benchmark_design",
+  "themes": [
+    {
+      "theme_id": "academic",
+      "theme_label": "Academic Workload & Stress",
+      "entry_ids": ["acad_A", "acad_B", "acad_C", "acad_D", "acad_E", "acad_F"]
+    },
+    {
+      "theme_id": "sleep",
+      "theme_label": "Sleep Difficulties",
+      "entry_ids": ["sleep_A", "sleep_B", "sleep_C", "sleep_D", "sleep_E", "sleep_F"]
+    },
+    {
+      "theme_id": "isolation",
+      "theme_label": "Social Isolation & Loneliness",
+      "entry_ids": ["isol_A", "isol_B", "isol_C", "isol_D", "isol_E", "isol_F"]
+    },
+    {
+      "theme_id": "family",
+      "theme_label": "Family Conflict & Tension",
+      "entry_ids": ["fam_A", "fam_B", "fam_C", "fam_D", "fam_E", "fam_F"]
+    },
+    {
+      "theme_id": "financial",
+      "theme_label": "Financial Concerns & Budget Stress",
+      "entry_ids": ["fin_A", "fin_B", "fin_C", "fin_D", "fin_E", "fin_F"]
+    },
+    {
+      "theme_id": "career",
+      "theme_label": "Career & Future Uncertainty",
+      "entry_ids": ["car_A", "car_B", "car_C", "car_D", "car_E", "car_F"]
+    },
+    {
+      "theme_id": "exercise",
+      "theme_label": "Exercise & Health Routines",
+      "entry_ids": ["exer_A", "exer_B", "exer_C", "exer_D", "exer_E", "exer_F"]
+    },
+    {
+      "theme_id": "social_pos",
+      "theme_label": "Positive Social Experiences & Friendship",
+      "entry_ids": ["soc_A", "soc_B", "soc_C", "soc_D", "soc_E", "soc_F"]
+    }
+  ],
+  "lexical_profiles": {
+    "high_overlap": "Entry uses the theme's canonical domain vocabulary. High token overlap with other high-overlap entries in the same theme.",
+    "medium_overlap": "Entry shares some theme vocabulary but describes the experience more obliquely.",
+    "low_overlap": "Entry describes the same semantic theme using different vocabulary (paraphrase/symptomatic). Challenging for lexical retrieval.",
+    "ambiguous": "Entry describes boundary symptoms or experiences that test contextual boundary retrieval. Labeled with true theme."
+  }
+}

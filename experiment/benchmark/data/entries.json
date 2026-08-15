@@ -1,0 +1,345 @@
+[
+  {
+    "id": "acad_A",
+    "theme_id": "academic",
+    "theme_label": "Academic Workload & Stress",
+    "lexical_profile": "high_overlap",
+    "text": "I have three exams next week and two major assignments due on Friday. I have been studying until midnight every night but I still feel like I am falling behind on the coursework. The academic pressure this semester is overwhelming and I cannot keep up with all the deadlines."
+  },
+  {
+    "id": "acad_B",
+    "theme_id": "academic",
+    "theme_label": "Academic Workload & Stress",
+    "lexical_profile": "high_overlap",
+    "text": "My exam schedule this semester is brutal. Back-to-back tests and multiple papers due in the same week. I spend all day studying and barely feel like I am making a dent. The workload from my classes has been impossible to manage and I am exhausted from trying."
+  },
+  {
+    "id": "acad_C",
+    "theme_id": "academic",
+    "theme_label": "Academic Workload & Stress",
+    "lexical_profile": "medium_overlap",
+    "text": "Deadlines keep piling up and I have not started the group project yet. Every time I sit down to work I just stare at the screen for an hour. My professor extended the submission date but I am still stressed about getting everything done on time."
+  },
+  {
+    "id": "acad_D",
+    "theme_id": "academic",
+    "theme_label": "Academic Workload & Stress",
+    "lexical_profile": "low_overlap",
+    "text": "My brain feels like it is running at full capacity with no break in sight. The moment I finish one thing, three more appear that need attention. I cannot seem to get ahead no matter how many hours I put in. Something has to give soon."
+  },
+  {
+    "id": "acad_E",
+    "theme_id": "academic",
+    "theme_label": "Academic Workload & Stress",
+    "lexical_profile": "low_overlap",
+    "text": "The library has basically become my second home. I have not cooked a proper meal in days. Every obligation seems to arrive at the same time and I have no idea how to prioritize. I feel like I am just treading water."
+  },
+  {
+    "id": "acad_F",
+    "theme_id": "academic",
+    "theme_label": "Academic Workload & Stress",
+    "lexical_profile": "ambiguous",
+    "text": "I feel completely depleted. There is a persistent low-level anxiety that I cannot shake. I know things need to get done but I can barely make myself start anything. This has been going on for weeks and I do not know what to do about it."
+  },
+
+  {
+    "id": "sleep_A",
+    "theme_id": "sleep",
+    "theme_label": "Sleep Difficulties",
+    "lexical_profile": "high_overlap",
+    "text": "I could not fall asleep until 3am again last night. I kept lying in bed with my mind racing and could not stop thinking. The insomnia has been getting worse each week and I wake up exhausted every morning."
+  },
+  {
+    "id": "sleep_B",
+    "theme_id": "sleep",
+    "theme_label": "Sleep Difficulties",
+    "lexical_profile": "high_overlap",
+    "text": "Another sleepless night. I went to bed at eleven but just lay there for hours unable to sleep. My sleep quality has been terrible lately and I wake up several times during the night feeling completely restless."
+  },
+  {
+    "id": "sleep_C",
+    "theme_id": "sleep",
+    "theme_label": "Sleep Difficulties",
+    "lexical_profile": "medium_overlap",
+    "text": "I have been staying up way too late scrolling through my phone and then regretting it the next morning when I am exhausted. I know I should go to sleep earlier but I cannot seem to make myself stop at a reasonable hour."
+  },
+  {
+    "id": "sleep_D",
+    "theme_id": "sleep",
+    "theme_label": "Sleep Difficulties",
+    "lexical_profile": "low_overlap",
+    "text": "My mornings have become something I dread. Getting out of bed feels like a battle even when I have technically been lying down for eight hours. The nights just do not feel restoring anymore. Something is off."
+  },
+  {
+    "id": "sleep_E",
+    "theme_id": "sleep",
+    "theme_label": "Sleep Difficulties",
+    "lexical_profile": "low_overlap",
+    "text": "There is a specific kind of exhaustion that hits around two in the afternoon where my eyes will not focus and my thoughts go blurry. It happens every day now. I do not understand why I still feel this worn down."
+  },
+  {
+    "id": "sleep_F",
+    "theme_id": "sleep",
+    "theme_label": "Sleep Difficulties",
+    "lexical_profile": "ambiguous",
+    "text": "I dread the evenings lately. As soon as I try to wind down, everything starts spinning in my head. I end up just lying there in the dark, wide awake, even though I am exhausted. It feels like my body and my mind are completely out of sync."
+  },
+
+  {
+    "id": "isol_A",
+    "theme_id": "isolation",
+    "theme_label": "Social Isolation & Loneliness",
+    "lexical_profile": "high_overlap",
+    "text": "I feel completely isolated and lonely on campus. I sit alone in my dorm room all evening and feel like I have no friends to reach out to. The social isolation is starting to make every day feel heavy."
+  },
+  {
+    "id": "isol_B",
+    "theme_id": "isolation",
+    "theme_label": "Social Isolation & Loneliness",
+    "lexical_profile": "high_overlap",
+    "text": "Feeling so disconnected and isolated from everyone around me. Nobody texts or invites me to anything, and I spend entire weekends alone in my room wondering why making friends is so difficult."
+  },
+  {
+    "id": "isol_C",
+    "theme_id": "isolation",
+    "theme_label": "Social Isolation & Loneliness",
+    "lexical_profile": "medium_overlap",
+    "text": "Watched groups of people laughing and talking outside while I walked back to my apartment by myself. It is painful feeling like a background character who never truly belongs anywhere."
+  },
+  {
+    "id": "isol_D",
+    "theme_id": "isolation",
+    "theme_label": "Social Isolation & Loneliness",
+    "lexical_profile": "low_overlap",
+    "text": "My phone stayed silent for the third day in a row. It is strange being surrounded by hundreds of bustling people every single day yet feeling completely invisible and unnoticed."
+  },
+  {
+    "id": "isol_E",
+    "theme_id": "isolation",
+    "theme_label": "Social Isolation & Loneliness",
+    "lexical_profile": "low_overlap",
+    "text": "I ate dinner by myself again with only the hum of the refrigerator for company. The quiet in this apartment has gotten so loud that it feels suffocating by eight o'clock."
+  },
+  {
+    "id": "isol_F",
+    "theme_id": "isolation",
+    "theme_label": "Social Isolation & Loneliness",
+    "lexical_profile": "ambiguous",
+    "text": "I spent the entire weekend staring at the ceiling without the motivation to interact with anyone. Even when I had the chance to step outside, I just stayed put. Everything feels empty and hollow lately."
+  },
+
+  {
+    "id": "fam_A",
+    "theme_id": "family",
+    "theme_label": "Family Conflict & Tension",
+    "lexical_profile": "high_overlap",
+    "text": "Got into a massive argument with my parents today about my grades and life choices. The constant family conflict and fighting at home makes going back for breaks feel like an absolute nightmare."
+  },
+  {
+    "id": "fam_B",
+    "theme_id": "family",
+    "theme_label": "Family Conflict & Tension",
+    "lexical_profile": "high_overlap",
+    "text": "Another screaming match with my parents over the phone. The tension and conflict with my family never seems to stop, and it leaves me emotionally drained for the rest of the day."
+  },
+  {
+    "id": "fam_C",
+    "theme_id": "family",
+    "theme_label": "Family Conflict & Tension",
+    "lexical_profile": "medium_overlap",
+    "text": "My dad called and immediately started criticizing my decisions and how I spend my time. It always dissolves into passive-aggressive comments that make me feel like I can never satisfy their expectations."
+  },
+  {
+    "id": "fam_D",
+    "theme_id": "family",
+    "theme_label": "Family Conflict & Tension",
+    "lexical_profile": "low_overlap",
+    "text": "The atmosphere at the dining table was so hostile you could cut it with a knife. Sarcastic barbs kept flying back and forth until someone slammed a door and stormed upstairs."
+  },
+  {
+    "id": "fam_E",
+    "theme_id": "family",
+    "theme_label": "Family Conflict & Tension",
+    "lexical_profile": "low_overlap",
+    "text": "Every conversation back home feels like stepping across a field of landmines. One slightly wrong tone of voice and grievances from three years ago get dragged back into the open."
+  },
+  {
+    "id": "fam_F",
+    "theme_id": "family",
+    "theme_label": "Family Conflict & Tension",
+    "lexical_profile": "ambiguous",
+    "text": "Someone who is supposed to support me said deeply hurtful things that I cannot get out of my head. Feeling attacked and criticized by people who are supposed to protect you stings worse than anything else."
+  },
+
+  {
+    "id": "fin_A",
+    "theme_id": "financial",
+    "theme_label": "Financial Concerns & Budget Stress",
+    "lexical_profile": "high_overlap",
+    "text": "I am having severe financial anxiety about rent and tuition bills coming due. Checking my bank account balance makes my stomach drop because I am barely making enough money to cover basic costs."
+  },
+  {
+    "id": "fin_B",
+    "theme_id": "financial",
+    "theme_label": "Financial Concerns & Budget Stress",
+    "lexical_profile": "high_overlap",
+    "text": "Money is so tight right now. Between paying for textbooks, food groceries, and monthly rent, my budget is completely blown. The constant financial stress is keeping me up at night."
+  },
+  {
+    "id": "fin_C",
+    "theme_id": "financial",
+    "theme_label": "Financial Concerns & Budget Stress",
+    "lexical_profile": "medium_overlap",
+    "text": "Had to decline an invite to join classmates for lunch because spending fifteen dollars on a meal is impossible on my current budget. My emergency savings fund is down to almost nothing."
+  },
+  {
+    "id": "fin_D",
+    "theme_id": "financial",
+    "theme_label": "Financial Concerns & Budget Stress",
+    "lexical_profile": "low_overlap",
+    "text": "Calculated every single expense down to the cent on the back of an envelope today. Having to put back two items at the store checkout because the total was too high was utterly humiliating."
+  },
+  {
+    "id": "fin_E",
+    "theme_id": "financial",
+    "theme_label": "Financial Concerns & Budget Stress",
+    "lexical_profile": "low_overlap",
+    "text": "An unexpected utility bill arrived and wiped out the small buffer I had carefully set aside for the month. It looks like instant noodles and peanut butter sandwiches for the next two weeks."
+  },
+  {
+    "id": "fin_F",
+    "theme_id": "financial",
+    "theme_label": "Financial Concerns & Budget Stress",
+    "lexical_profile": "ambiguous",
+    "text": "I feel constantly on edge about sudden emergencies. Knowing that a single unexpected complication could derail everything I have built makes me feel precarious and unprotected."
+  },
+
+  {
+    "id": "car_A",
+    "theme_id": "career",
+    "theme_label": "Career & Future Uncertainty",
+    "lexical_profile": "high_overlap",
+    "text": "I am experiencing huge career anxiety about what happens after graduation. Applying to dozens of internships and entry-level jobs with zero callbacks is making me question my entire professional future."
+  },
+  {
+    "id": "car_B",
+    "theme_id": "career",
+    "theme_label": "Career & Future Uncertainty",
+    "lexical_profile": "high_overlap",
+    "text": "The job search process has been completely demoralizing. Sent out fifty resumes for open career positions and received only automated rejection emails. My future employment prospects look bleak."
+  },
+  {
+    "id": "car_C",
+    "theme_id": "career",
+    "theme_label": "Career & Future Uncertainty",
+    "lexical_profile": "medium_overlap",
+    "text": "Attended the campus career fair and felt hopelessly underprepared compared to everyone else. Other students had sleek portfolios and clear five-year plans while I could barely pitch my background."
+  },
+  {
+    "id": "car_D",
+    "theme_id": "career",
+    "theme_label": "Career & Future Uncertainty",
+    "lexical_profile": "low_overlap",
+    "text": "I have no idea what direction I am heading in after next spring. Whenever relatives ask what comes next, I just smile and give a polite rehearsed answer while internally panicking."
+  },
+  {
+    "id": "car_E",
+    "theme_id": "career",
+    "theme_label": "Career & Future Uncertainty",
+    "lexical_profile": "low_overlap",
+    "text": "Spent years working toward this qualification and now I am not even certain I want to work in this industry. It feels as though I spent all my energy climbing the wrong ladder."
+  },
+  {
+    "id": "car_F",
+    "theme_id": "career",
+    "theme_label": "Career & Future Uncertainty",
+    "lexical_profile": "ambiguous",
+    "text": "Woke up wondering what the true purpose of all this effort is if there is no clear path ahead. The fear of committing to the wrong major life trajectory is making it hard to move forward."
+  },
+
+  {
+    "id": "exer_A",
+    "theme_id": "exercise",
+    "theme_label": "Exercise & Health Routines",
+    "lexical_profile": "high_overlap",
+    "text": "Went to the gym for a vigorous workout session today. Running on the treadmill and lifting weights left my muscles pleasantly sore and boosted my physical health and daily energy."
+  },
+  {
+    "id": "exer_B",
+    "theme_id": "exercise",
+    "theme_label": "Exercise & Health Routines",
+    "lexical_profile": "high_overlap",
+    "text": "Kept up with my morning gym workout routine. Getting consistent cardio exercise and strength training has significantly improved my physical fitness and stamina over the past month."
+  },
+  {
+    "id": "exer_C",
+    "theme_id": "exercise",
+    "theme_label": "Exercise & Health Routines",
+    "lexical_profile": "medium_overlap",
+    "text": "Went for a five-mile trail run through the woods early this morning. The uphill climbs were tough on my legs, but breathing crisp outdoor air helped clear out the mental fog."
+  },
+  {
+    "id": "exer_D",
+    "theme_id": "exercise",
+    "theme_label": "Exercise & Health Routines",
+    "lexical_profile": "low_overlap",
+    "text": "Laced up my sneakers at dawn and completed a brisk loop around the lake. Breaking a heavy sweat before breakfast always resets my sluggish body and sharpens my focus."
+  },
+  {
+    "id": "exer_E",
+    "theme_id": "exercise",
+    "theme_label": "Exercise & Health Routines",
+    "lexical_profile": "low_overlap",
+    "text": "Spent thirty minutes on the mat doing deep stretching, mobility work, and steady breathing. My posture feels lighter and the tightness in my shoulders has finally melted away."
+  },
+  {
+    "id": "exer_F",
+    "theme_id": "exercise",
+    "theme_label": "Exercise & Health Routines",
+    "lexical_profile": "ambiguous",
+    "text": "Pushed my physical limits today until I was completely drenched and breathless. I needed something intensely demanding to drown out all the racing thoughts in my head."
+  },
+
+  {
+    "id": "soc_A",
+    "theme_id": "social_pos",
+    "theme_label": "Positive Social Experiences & Friendship",
+    "lexical_profile": "high_overlap",
+    "text": "Had a wonderful social gathering with my closest friends tonight. We shared so many laughs, had great meaningful conversations, and felt genuine social connection and warmth throughout the evening."
+  },
+  {
+    "id": "soc_B",
+    "theme_id": "social_pos",
+    "theme_label": "Positive Social Experiences & Friendship",
+    "lexical_profile": "high_overlap",
+    "text": "Spent quality time hanging out with dear friends today. We enjoyed good food, great banter, and uplifting social conversations that reminded me how valuable strong friendships really are."
+  },
+  {
+    "id": "soc_C",
+    "theme_id": "social_pos",
+    "theme_label": "Positive Social Experiences & Friendship",
+    "lexical_profile": "medium_overlap",
+    "text": "Hosted a cozy board game night in the living room with three classmates. Making homemade tacos and joking around until midnight was easily the most restorative highlight of my entire week."
+  },
+  {
+    "id": "soc_D",
+    "theme_id": "social_pos",
+    "theme_label": "Positive Social Experiences & Friendship",
+    "lexical_profile": "low_overlap",
+    "text": "Sat on the grass with two people I cherish, watching the sunset fade into dusk and talking about everything and nothing. I have not smiled and laughed that freely in months."
+  },
+  {
+    "id": "soc_E",
+    "theme_id": "social_pos",
+    "theme_label": "Positive Social Experiences & Friendship",
+    "lexical_profile": "low_overlap",
+    "text": "A friend dropped by unexpectedly with warm tea and freshly baked cookies just to see how I was holding up. That spontaneous act of kindness completely transformed my day."
+  },
+  {
+    "id": "soc_F",
+    "theme_id": "social_pos",
+    "theme_label": "Positive Social Experiences & Friendship",
+    "lexical_profile": "ambiguous",
+    "text": "For the first time in a long while, I felt completely heard, accepted, and understood today. The heavy emotional burden I had been carrying felt noticeably lighter after sharing it openly."
+  }
+]
